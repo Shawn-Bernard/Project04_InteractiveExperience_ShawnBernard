@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> Inventory = new List<GameObject>();
+    [SerializeField] public List<GameObject> Inventory = new List<GameObject>();
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject Current = null;
     GameObject Item;

@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string[] dialogueToPlay)
     {
+        Debug.Log("Start dialogue");
         if (isDialogueActive) return;
 
         isDialogueActive = true;

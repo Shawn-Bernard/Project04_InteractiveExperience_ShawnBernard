@@ -9,10 +9,16 @@ public class GameManager : MonoBehaviour
 
     // Managers
     public UIManager UImanager;
+
     public LevelManager LevelManger;
+
     public GameStateManager gameStateManager;
+
     public DialogueManager dialogueManager;
+
     public PlayerMovement playerMovement;
+
+    public PlayerInteraction playerInteraction;
 
     void Start()
     {

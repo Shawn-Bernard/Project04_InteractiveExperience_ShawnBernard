@@ -15,9 +15,29 @@ public class InteractableObject : MonoBehaviour
 
     public Interaction InteractionType;
 
+    public GameObject ItemTrigger;
+
     public string[] InfoString;
+
     public string[] Dialogue;
 
+    public string[] ItemDialogue;
+
+    [SerializeField]
+    public bool hasItem
+    {
+        get
+        {
+            if (GameManager.Instance.playerInteraction.Inventory.Contains(ItemTrigger))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     public void Interact()
     {
         switch (InteractionType)
@@ -55,6 +75,21 @@ public class InteractableObject : MonoBehaviour
 
     public void StartDialogue()
     {
-        GameManager.Instance.dialogueManager.StartDialogue(Dialogue);
+        Debug.Log("Dialogue");
+        if (hasItem)
+        {
+            Debug.Log("Player has item");
+            Dialogue = ItemDialogue;
+            GameManager.Instance.dialogueManager.StartDialogue(Dialogue);
+        }
+        else
+        {
+            GameManager.Instance.dialogueManager.StartDialogue(Dialogue);
+        }
+        Debug.Log("if has ended");
+        
+
+
+
     }
 }
