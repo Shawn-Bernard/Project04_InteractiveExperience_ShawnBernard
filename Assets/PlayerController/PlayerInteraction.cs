@@ -14,7 +14,7 @@ public class PlayerInteraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            PlayerInputActions.InteractEvent -= Interact;
+            //PlayerInputActions.InteractEvent -= Interact;
         }
     }
 
@@ -48,6 +48,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
+        Debug.Log("");
         interactableObject = Current.GetComponent<InteractableObject>();
         //Checks if the interactableObject is a pickup or not so we can add it to our inventory 
         if (interactableObject.InteractionType == InteractableObject.Interaction.Pickup)

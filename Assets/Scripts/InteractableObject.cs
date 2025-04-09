@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 
 public class InteractableObject : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     public enum Interaction
     {
         Nothing,
@@ -19,17 +20,26 @@ public class InteractableObject : MonoBehaviour
 
     public string[] InfoString;
 
-    public string[] Dialogue;
+    public string[] Dialogue;// dialogue to play when first start to npc
 
-    public string[] ItemDialogue;
+    public string[] questDialogue;//to play when quest has started
+
+    public string[] ItemDialogue;//plays when the item is given
+
+
+    public void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     [SerializeField]
-    public bool hasItem
+    private bool hasItem
     {
         get
         {
             if (GameManager.Instance.playerInteraction.Inventory.Contains(ItemTrigger))
             {
+                Dialogue = ItemDialogue;
                 return true;
             }
             else
@@ -38,6 +48,8 @@ public class InteractableObject : MonoBehaviour
             }
         }
     }
+
+
     public void Interact()
     {
         switch (InteractionType)
@@ -70,26 +82,28 @@ public class InteractableObject : MonoBehaviour
 
     public void Info()
     {
-        GameManager.Instance.UImanager.StartCoroutine(GameManager.Instance.UImanager.StartInfo(InfoString));
+        gameManager.UImanager.StartCoroutine(gameManager.UImanager.StartInfo(InfoString));
     }
 
     public void StartDialogue()
     {
         Debug.Log("Dialogue");
+        string[] DialogueToPlay = Dialogue;
+        for (int i = 0; i < 1; i++)
+        {
+            gameManager.dialogueManager.StartDialogue(DialogueToPlay);
+        }
+
         if (hasItem)
         {
             Debug.Log("Player has item");
-            Dialogue = ItemDialogue;
-            GameManager.Instance.dialogueManager.StartDialogue(Dialogue);
+            gameManager.dialogueManager.StartDialogue(Dialogue);
         }
-        else
+        else if (!hasItem && Dialogue != questDialogue)
         {
-            GameManager.Instance.dialogueManager.StartDialogue(Dialogue);
+            Debug.Log("!Player does not have item");
+            Dialogue = questDialogue;
+            gameManager.dialogueManager.StartDialogue(Dialogue);
         }
-        Debug.Log("if has ended");
-        
-
-
-
     }
 }

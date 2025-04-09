@@ -28,10 +28,11 @@ public class InputManager : MonoBehaviour, PlayerInput.IPlayerActions
         {
             PlayerInputActions.InteractEvent?.Invoke();
         }
+        /*
         else if (context.canceled)
         {
             PlayerInputActions.DropEvent?.Invoke();
-        }
+        }*/
     }
 }
 public static class PlayerInputActions

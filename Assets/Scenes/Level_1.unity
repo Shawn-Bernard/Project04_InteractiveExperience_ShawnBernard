@@ -19653,8 +19653,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4668450511944446757, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
+      propertyPath: questDialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668450511944446757, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
       propertyPath: ItemDialogue.Array.data[0]
       value: Thank you so much
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668450511944446757, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
+      propertyPath: startedDialogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668450511944446757, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
+      propertyPath: questDialogue.Array.data[0]
+      value: Hi do you have my key yet?
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668450511944446757, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
+      propertyPath: questDialogue.Array.data[1]
+      value: no?, then why are you still here go get my key
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668450511944446757, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
+      propertyPath: startedDialogue.Array.data[0]
+      value: Your not getting on this boat without a key
       objectReference: {fileID: 0}
     - target: {fileID: 6142648038368748040, guid: 347f7f1d87d4b494b8f551b93ab5cf05, type: 3}
       propertyPath: m_Name
