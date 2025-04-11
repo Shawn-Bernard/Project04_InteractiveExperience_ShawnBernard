@@ -60,7 +60,8 @@ public class GameStateManager : MonoBehaviour
                 Debug.Log("Switch to paused");
                 gameManager.UImanager.EnablePause();
                 Time.timeScale = 0;
-                Cursor.visible = true;
+                
+                
                 break;
                 // Wasn't to sure if I should enable opitions in the button or not
                 // to me it made sense because I have a return game state that uses the last game state 
@@ -97,6 +98,11 @@ public class GameStateManager : MonoBehaviour
                         break;
                 }
             }
+        }
+        if (currentState == GameState.Paused_State)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
         
     }

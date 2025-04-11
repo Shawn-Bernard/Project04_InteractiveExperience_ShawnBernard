@@ -2,73 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
-    [SerializeField] private GameObject dialogue; // UI panel for dialogue
-    [SerializeField] private TextMeshProUGUI dialogueText; // Text component for dialogue
+    public GameObject dialogue;
+    public TextMeshProUGUI dialogueText;
 
-    [SerializeField] private Queue<string> dialogueQueue = new Queue<string>(); // Stores dialogue lines
-    [SerializeField]
+    private Queue<string> dialogueQueue = new Queue<string>();
+    private string[] lastDialogue;
     private bool isDialogueActive
     {
         get
         {
-            if (dialogue.activeInHierarchy == true)
-            {
-                Debug.Log("dialogue is active");
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-                return true;
-            }
-            else
-            {
-                Debug.Log("dialogue is not active");
-                return false;
-            }
+            //returns true when active
+            return dialogue.activeInHierarchy;
         }
     }
 
     public void StartDialogue(string[] dialogueToPlay)
     {
-        Debug.Log("Start dialogue");
-        
-        if (isDialogueActive)
+        // Only adding once, when starting a new dialogue
+        if (!isDialogueActive)
+        {
+            PlayerInputActions.InteractEvent += AdvanceDialogue;
+        }
+
+        lastDialogue = dialogueToPlay;
+
+        // If dialogue is already active and it's the same lines, don't reset
+        if (isDialogueActive && lastDialogue == dialogueToPlay)
         {
             Debug.Log("returning cause dialogue is started");
             return;
         }
 
-        GameManager.Instance.playerMovement.LockState(true);
         dialogueQueue.Clear();
+
+        // Adding each string in dialogue into the queue 
         foreach (string line in dialogueToPlay)
         {
             dialogueQueue.Enqueue(line);
         }
 
-        dialogue.SetActive(true);
+        DialogueBoolSet(true);
 
-        dialogueText.text = dialogueQueue.Dequeue();
+        AdvanceDialogue();
     }
 
     public void AdvanceDialogue()
     {
         if (dialogueQueue.Count == 0)
         {
-            Debug.Log("Ending dialogue cause queue is done");
             EndDialogue();
+            return;
         }
 
         dialogueText.text = dialogueQueue.Dequeue();
+
     }
 
     private void EndDialogue()
     {
-        Debug.Log("End dialogue method");
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        GameManager.Instance.playerMovement.LockState(false);
-        dialogue.SetActive(false);
-        
+        PlayerInputActions.InteractEvent -= AdvanceDialogue;
+        DialogueBoolSet(false);
+    }
+
+    private void DialogueBoolSet(bool value)
+    {
+        GameManager.Instance.playerMovement.LockState(value);
+        dialogue.SetActive(value);
+
+        if (value)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }

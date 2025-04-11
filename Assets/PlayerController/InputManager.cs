@@ -26,13 +26,9 @@ public class InputManager : MonoBehaviour, PlayerInput.IPlayerActions
     {
         if (context.started)
         {
+            Debug.Log("Interact event has started");
             PlayerInputActions.InteractEvent?.Invoke();
         }
-        /*
-        else if (context.canceled)
-        {
-            PlayerInputActions.DropEvent?.Invoke();
-        }*/
     }
 }
 public static class PlayerInputActions

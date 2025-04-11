@@ -5,35 +5,27 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] public List<GameObject> Inventory = new List<GameObject>();
+    [SerializeField] public List<GameObject> Inventory;
+
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject Current = null;
-    GameObject Item;
+    GameObject Interactable;
 
     [SerializeField] private InteractableObject interactableObject;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Debug.Log("Current Inventory Count: " + Inventory.Count);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {   
-        Debug.Log("Here");
+        
         if (other.gameObject.CompareTag("Interactable"))
         {
+            Debug.Log("Here");
             Current = other.gameObject;
             PlayerInputActions.InteractEvent += Interact;
-        }
-        else
-        {
-            //PlayerInputActions.InteractEvent -= Interact;
         }
     }
 
@@ -48,25 +40,41 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("");
         interactableObject = Current.GetComponent<InteractableObject>();
-        //Checks if the interactableObject is a pickup or not so we can add it to our inventory 
-        if (interactableObject.InteractionType == InteractableObject.Interaction.Pickup)
+
+        interactableObject.Interact();
+    }
+
+    public void AddToInventory(GameObject Item)
+    {
+        if (Inventory.Contains(Item))
         {
-            Item = Current;
+            Debug.Log("Item already in inventory: " + Item.name);
+            return;
+        }
+        else
+        {
+            GameObject newItem = Item;
+
+            Inventory.Add(newItem);
             Inventory.Add(Item);
 
-            string inventoryText = "";
+            Debug.Log("Item added to inventory: " + Item.name); // Log this
 
-            for (int i = 0; i < Inventory.Count; i++)
-            {
-                //Example: "Heart" += "Key"
-                inventoryText += Inventory[i].name + "\n"; //Adding the item names and separating the lines
-            }
-
-            GameManager.Instance.UImanager.ChangeInventoryText(inventoryText);
+            GameManager.Instance.UImanager.ChangeInventoryText();
         }
-        interactableObject.Interact();
+    }
+
+    public bool HasItemInInventory(GameObject item)
+    {
+        foreach (GameObject Item in Inventory)
+        {
+            if (Item.name == item.name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 

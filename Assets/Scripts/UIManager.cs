@@ -90,14 +90,30 @@ public class UIManager : MonoBehaviour
         info.SetActive(false);// Setting text box to false after all the lines are done 
     }
 
-    public void ChangeGameplayText(string Text)
+    public void ChangeGameplayText()
     {
-        gameplayText.text = Text;
+        string QuestString = "Active Quest";
+
+        foreach (var Quest in GameManager.Instance.questManager.activeQuests)
+        {
+            QuestString += "\n" + Quest;
+        }
+
+        Debug.Log("Added quest");
+        gameplayText.text = QuestString;  // Update the UI with the built inventory string
     }
 
-    public void ChangeInventoryText(string Text)
+    public void ChangeInventoryText()
     {
-        inventoryText.text = Text;
+        string inventoryString = "";  // Creating a string that holds the inventory items
+
+        // Adding each inventory item in the string
+        foreach (GameObject item in GameManager.Instance.Inventory)
+        {
+            inventoryString += item.name + "\n";  // Adds the item then splits the string
+        }
+
+        inventoryText.text = inventoryString;  // Update the UI with the built inventory string
     }
 
 }

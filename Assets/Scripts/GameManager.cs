@@ -20,7 +20,13 @@ public class GameManager : MonoBehaviour
 
     public PlayerInteraction playerInteraction;
 
-    void Start()
+    public QuestManager questManager;
+
+    public InventoryManager inventoryManager;
+
+    [SerializeField] public List<GameObject> Inventory;
+
+    void Awake()
     {
         if (Instance != null)
         {
